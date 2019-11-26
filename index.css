@@ -1,0 +1,44 @@
+body
+{
+    background-color: black;
+}
+h1
+{
+text-align: center;
+color: white;
+font-size: 57;
+}
+
+#goattalk
+{
+    font-size: 55;
+    color:white;
+    font-family: 'Shadows Into Light', cursive;
+}
+
+p
+{
+    position: relative;
+    color: white;
+    font-size: 55;
+}
+
+svg
+{
+position: relative;
+margin-top: 125px;
+    color: white;
+}
+
+#lbj
+{
+   max-width: 30%;
+    float: left;
+}
+
+#mj
+{
+    max-width: 25%;
+    float: right;
+
+}
