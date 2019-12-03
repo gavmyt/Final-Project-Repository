@@ -1,28 +1,21 @@
+var dataPromise = d3.csv("index.csv");
 
-
-var penPromise = d3.json("penguins/classData.json");
-
-penPromise.then(function(penguins)
-   {
-       setup(penguins);         
-                
-    }),
+dataPromise.then(function(lbj)
+{
+    console.log(lbj)
+    setup(lbj);
+}),
     function(err)
-                {
+    {
     console.log("fail",err);
-    }
+}
 
-
-
-var screen = {width:750,height:500}
+var screen = {width:800,height:600}
 var margins = {top:10,right:50,bottom:50,left:150}
 
-
-
-
-var setup = function(penguins)
+var setup = function(lbj)
 {
-    d3.select("svg")
+   d3.select("svg")
         .attr("width",screen.width)
         .attr("height",screen.height)
         .append("g")
@@ -34,14 +27,14 @@ var setup = function(penguins)
     var width = screen.width - margins.left - margins.right;
     var height = screen.height - margins.top - margins.bottom;
     
-    var xScale = d3.scaleLinear()
-                .domain([0,37])
+    var xScale = d3.scaleBand()
                 .range([0,width])
+                .padding(0.1)
     
     var yScale = d3.scaleLinear()
                 .domain([0,35000])
-                .range([height,0])
-    
+                .range([height,0]);
+            
     var xAxis = d3.axisBottom(xScale)
     var yAxis = d3.axisLeft(yScale)
     
@@ -60,71 +53,13 @@ var setup = function(penguins)
         .attr("id","yAxis")
         .attr("transform","translate(100,"+margins.top+")")
         .call(yAxis)
-    
-    drawArray(penguins, xScale, yScale);
-    
 }
 
-var drawArray = function(penguins, xScale, yScale)
+var drawGraph = function(lbj, xScale, yScale)
 {
-    var arrays = d3.select("#graph")
-    .selectAll("g")
-    .data(penguins)
-    .enter()
-    .append("g")
-    .attr("fill", "none")
-    .attr("stroke", "blue")
-    .attr("stroke-width",1)
-    .on('mouseover', function(d, i)
+    var graphs = d3.select("#graph")
+                    .data(lbj)
+                    .enter()
+                    .append("g")    
     
-    {
-    d3.select(this)
-        .attr("stroke", "red")
-    d3.select("#image *").remove();
-    d3.select("#image")
-    .append("img")
-    .attr("src", "penguins/" + penguins[i].picture);
-    })
-    .on('mouseout', function()
-    {
-    d3.select(this)
-        .attr("stroke","blue")
-    d3.select("#image *").remove();
-    });
-    
-    
-    var lineGenerator = d3.line()
-        .x(function(num,index){return xScale(index)})
-        .y(function(num){return yScale(num)})
-        .curve(d3.curveNatural)
-    
-d3.select("body")
-    .append("div")
-    .attr("id","image");
-    
-arrays.datum(function(obj)
-{
-    return obj.quizes.map(function(d){return d.grade;});
-})
-    .append('path')
-    .attr("d", lineGenerator)
-    
-
 }
-             
-             
-    
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
