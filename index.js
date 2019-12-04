@@ -1,9 +1,9 @@
 var dataPromise = d3.csv("index.csv");
 
-dataPromise.then(function(lbj)
+dataPromise.then(function(data)
 {
-    console.log(lbj)
-    setup(lbj);
+    console.log(data)
+    setup(data);
 }),
     function(err)
     {
@@ -13,7 +13,7 @@ dataPromise.then(function(lbj)
 var screen = {width:800,height:600}
 var margins = {top:10,right:50,bottom:50,left:100}
 
-var setup = function(lbj)
+var setup = function(data)
 {
    d3.select("svg")
         .attr("width",screen.width)
@@ -54,22 +54,41 @@ var setup = function(lbj)
         .attr("id","yAxis")
         .attr("transform","translate(100,"+margins.top+")")
         .call(yAxis)
+        
     
-drawGraph(lbj, xScale, yScale, height);
+drawGraph1(data, xScale, yScale, height);
+
 }
 
-var drawGraph = function(lbj, xScale, yScale, height)
+var drawGraph1 = function(data, xScale, yScale, height)
 {
-    var graphs = d3.select("#graph")
+    var LBJpoints = d3.select("#graph")
                     .selectAll("rect")
-                    .data(lbj)
+                    .data(data)
                     .enter()
                     .append("rect")
-                    .attr("x", 50)
-                    .attr("y", yScale(30000))
+                    .attr("x", function(d,i){
+                        return 25 + i * 50;
+                    })
+                    .attr("y", yScale(35000))
                     .attr("width", 25)
-                    .attr("height", height-(yScale(lbj[0].Points)))
+                    .attr("height", height-(yScale(data[0].Points)))
                     .attr("fill", "#ffb410");
+                    
+    
+    
+/* d3.select("#graph")
+                    .selectAll("rect")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", 150)
+                    .attr("y", yScale(35000))
+                    .attr("width", 25)
+                    .attr("height", height-(yScale(data[1].Points)))
+                    .attr("fill", "#ffb410") */
+}
+
+
     
 
-}
